@@ -1,0 +1,1498 @@
+
+Timer_Test.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000660  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000015  00800060  00800060  000006d4  2**0
+                  ALLOC
+  2 .stab         000010c8  00000000  00000000  000006d4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      00000ba0  00000000  00000000  0000179c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 64 02 	jmp	0x4c8	; 0x4c8 <__vector_10>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a5 37       	cpi	r26, 0x75	; 117
+  6c:	b1 07       	cpc	r27, r17
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 ab 02 	call	0x556	; 0x556 <main>
+  74:	0c 94 2e 03 	jmp	0x65c	; 0x65c <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <mdio_setPinStatus>:
+/************************************************************************************************/
+
+void mdio_setPinStatus(u8_t au8_port, u8_t au8_pin, u8_t au8_status)
+{
+	/*Switching over DIO Ports*/
+	switch(au8_port)
+  7c:	81 30       	cpi	r24, 0x01	; 1
+  7e:	09 f1       	breq	.+66     	; 0xc2 <mdio_setPinStatus+0x46>
+  80:	81 30       	cpi	r24, 0x01	; 1
+  82:	30 f0       	brcs	.+12     	; 0x90 <mdio_setPinStatus+0x14>
+  84:	82 30       	cpi	r24, 0x02	; 2
+  86:	b1 f1       	breq	.+108    	; 0xf4 <mdio_setPinStatus+0x78>
+  88:	83 30       	cpi	r24, 0x03	; 3
+  8a:	09 f0       	breq	.+2      	; 0x8e <mdio_setPinStatus+0x12>
+  8c:	62 c0       	rjmp	.+196    	; 0x152 <mdio_setPinStatus+0xd6>
+  8e:	4a c0       	rjmp	.+148    	; 0x124 <mdio_setPinStatus+0xa8>
+	{
+		/*In case of choosing PORTA*/
+		case PORTA:
+
+			/*Switching over port status*/
+			switch(au8_status)
+  90:	41 30       	cpi	r20, 0x01	; 1
+  92:	71 f0       	breq	.+28     	; 0xb0 <mdio_setPinStatus+0x34>
+  94:	41 30       	cpi	r20, 0x01	; 1
+  96:	20 f0       	brcs	.+8      	; 0xa0 <mdio_setPinStatus+0x24>
+  98:	42 30       	cpi	r20, 0x02	; 2
+  9a:	09 f0       	breq	.+2      	; 0x9e <mdio_setPinStatus+0x22>
+  9c:	5a c0       	rjmp	.+180    	; 0x152 <mdio_setPinStatus+0xd6>
+  9e:	03 c0       	rjmp	.+6      	; 0xa6 <mdio_setPinStatus+0x2a>
+			{
+				/*In case of output*/
+				case OUTPUT:
+
+					/*Set the selected pins to output*/
+					MDIO_DDRA |= au8_pin;
+  a0:	8a b3       	in	r24, 0x1a	; 26
+  a2:	86 2b       	or	r24, r22
+  a4:	03 c0       	rjmp	.+6      	; 0xac <mdio_setPinStatus+0x30>
+
+				/*In case of input floating*/
+				case INPUT_FLOAT:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRA &= ~au8_pin;
+  a6:	8a b3       	in	r24, 0x1a	; 26
+  a8:	60 95       	com	r22
+  aa:	86 23       	and	r24, r22
+  ac:	8a bb       	out	0x1a, r24	; 26
+  ae:	08 95       	ret
+
+				/*In case of input pull-up*/
+				case INPUT_PULLUP:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRA &= ~au8_pin;
+  b0:	8a b3       	in	r24, 0x1a	; 26
+  b2:	96 2f       	mov	r25, r22
+  b4:	90 95       	com	r25
+  b6:	98 23       	and	r25, r24
+  b8:	9a bb       	out	0x1a, r25	; 26
+
+					/*Activating the pull-up resistor*/
+					MDIO_PORTA |= au8_pin;
+  ba:	8b b3       	in	r24, 0x1b	; 27
+  bc:	86 2b       	or	r24, r22
+  be:	8b bb       	out	0x1b, r24	; 27
+  c0:	08 95       	ret
+
+		/*In case of choosing PORTB*/
+		case PORTB:
+
+			/*Switching over port status*/
+			switch(au8_status)
+  c2:	41 30       	cpi	r20, 0x01	; 1
+  c4:	71 f0       	breq	.+28     	; 0xe2 <mdio_setPinStatus+0x66>
+  c6:	41 30       	cpi	r20, 0x01	; 1
+  c8:	20 f0       	brcs	.+8      	; 0xd2 <mdio_setPinStatus+0x56>
+  ca:	42 30       	cpi	r20, 0x02	; 2
+  cc:	09 f0       	breq	.+2      	; 0xd0 <mdio_setPinStatus+0x54>
+  ce:	41 c0       	rjmp	.+130    	; 0x152 <mdio_setPinStatus+0xd6>
+  d0:	03 c0       	rjmp	.+6      	; 0xd8 <mdio_setPinStatus+0x5c>
+			{
+				/*In case of output*/
+				case OUTPUT:
+
+					/*Set the selected pins to output*/
+					MDIO_DDRB |= au8_pin;
+  d2:	87 b3       	in	r24, 0x17	; 23
+  d4:	86 2b       	or	r24, r22
+  d6:	03 c0       	rjmp	.+6      	; 0xde <mdio_setPinStatus+0x62>
+
+				/*In case of input floating*/
+				case INPUT_FLOAT:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRB &= ~au8_pin;
+  d8:	87 b3       	in	r24, 0x17	; 23
+  da:	60 95       	com	r22
+  dc:	86 23       	and	r24, r22
+  de:	87 bb       	out	0x17, r24	; 23
+  e0:	08 95       	ret
+
+				/*In case of input pull-up*/
+				case INPUT_PULLUP:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRB &= ~au8_pin;
+  e2:	87 b3       	in	r24, 0x17	; 23
+  e4:	96 2f       	mov	r25, r22
+  e6:	90 95       	com	r25
+  e8:	98 23       	and	r25, r24
+  ea:	97 bb       	out	0x17, r25	; 23
+
+					/*Activating the pull-up resistor*/
+					MDIO_PORTB |= au8_pin;
+  ec:	88 b3       	in	r24, 0x18	; 24
+  ee:	86 2b       	or	r24, r22
+  f0:	88 bb       	out	0x18, r24	; 24
+  f2:	08 95       	ret
+
+		/*In case of choosing PORTC*/
+		case PORTC:
+
+			/*Switching over port status*/
+			switch(au8_status)
+  f4:	41 30       	cpi	r20, 0x01	; 1
+  f6:	69 f0       	breq	.+26     	; 0x112 <mdio_setPinStatus+0x96>
+  f8:	41 30       	cpi	r20, 0x01	; 1
+  fa:	18 f0       	brcs	.+6      	; 0x102 <mdio_setPinStatus+0x86>
+  fc:	42 30       	cpi	r20, 0x02	; 2
+  fe:	49 f5       	brne	.+82     	; 0x152 <mdio_setPinStatus+0xd6>
+ 100:	03 c0       	rjmp	.+6      	; 0x108 <mdio_setPinStatus+0x8c>
+			{
+				/*In case of output*/
+				case OUTPUT:
+
+					/*Set the selected pins to output*/
+					MDIO_DDRC |= au8_pin;
+ 102:	84 b3       	in	r24, 0x14	; 20
+ 104:	86 2b       	or	r24, r22
+ 106:	03 c0       	rjmp	.+6      	; 0x10e <mdio_setPinStatus+0x92>
+
+				/*In case of input floating*/
+				case INPUT_FLOAT:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRC &= ~au8_pin;
+ 108:	84 b3       	in	r24, 0x14	; 20
+ 10a:	60 95       	com	r22
+ 10c:	86 23       	and	r24, r22
+ 10e:	84 bb       	out	0x14, r24	; 20
+ 110:	08 95       	ret
+
+				/*In case of input pull-up*/
+				case INPUT_PULLUP:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRC &= ~au8_pin;
+ 112:	84 b3       	in	r24, 0x14	; 20
+ 114:	96 2f       	mov	r25, r22
+ 116:	90 95       	com	r25
+ 118:	98 23       	and	r25, r24
+ 11a:	94 bb       	out	0x14, r25	; 20
+
+					/*Activating the pull-up resistor*/
+					MDIO_PORTC |= au8_pin;
+ 11c:	85 b3       	in	r24, 0x15	; 21
+ 11e:	86 2b       	or	r24, r22
+ 120:	85 bb       	out	0x15, r24	; 21
+ 122:	08 95       	ret
+
+		/*In case of choosing PORTD*/
+		case PORTD:
+
+			/*Switching over port status*/
+			switch(au8_status)
+ 124:	41 30       	cpi	r20, 0x01	; 1
+ 126:	69 f0       	breq	.+26     	; 0x142 <mdio_setPinStatus+0xc6>
+ 128:	41 30       	cpi	r20, 0x01	; 1
+ 12a:	18 f0       	brcs	.+6      	; 0x132 <mdio_setPinStatus+0xb6>
+ 12c:	42 30       	cpi	r20, 0x02	; 2
+ 12e:	89 f4       	brne	.+34     	; 0x152 <mdio_setPinStatus+0xd6>
+ 130:	03 c0       	rjmp	.+6      	; 0x138 <mdio_setPinStatus+0xbc>
+			{
+				/*In case of output*/
+				case OUTPUT:
+
+					/*Set the selected pins to output*/
+					MDIO_DDRD |= au8_pin;
+ 132:	81 b3       	in	r24, 0x11	; 17
+ 134:	86 2b       	or	r24, r22
+ 136:	03 c0       	rjmp	.+6      	; 0x13e <mdio_setPinStatus+0xc2>
+
+				/*In case of input floating*/
+				case INPUT_FLOAT:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRD &= ~au8_pin;
+ 138:	81 b3       	in	r24, 0x11	; 17
+ 13a:	60 95       	com	r22
+ 13c:	86 23       	and	r24, r22
+ 13e:	81 bb       	out	0x11, r24	; 17
+ 140:	08 95       	ret
+
+				/*In case of input pull-up*/
+				case INPUT_PULLUP:
+
+					/*Set the selected pins to input floating*/
+					MDIO_DDRD &= ~au8_pin;
+ 142:	81 b3       	in	r24, 0x11	; 17
+ 144:	96 2f       	mov	r25, r22
+ 146:	90 95       	com	r25
+ 148:	98 23       	and	r25, r24
+ 14a:	91 bb       	out	0x11, r25	; 17
+
+					/*Activating the pull-up resistor*/
+					MDIO_PORTD |= au8_pin;
+ 14c:	82 b3       	in	r24, 0x12	; 18
+ 14e:	86 2b       	or	r24, r22
+ 150:	82 bb       	out	0x12, r24	; 18
+ 152:	08 95       	ret
+
+00000154 <mdio_setPinValue>:
+}
+
+void mdio_setPinValue(u8_t au8_port, u8_t au8_pin, u8_t au8_value)
+{
+	/*Switching over DIO Ports*/
+	switch(au8_port)
+ 154:	81 30       	cpi	r24, 0x01	; 1
+ 156:	99 f0       	breq	.+38     	; 0x17e <mdio_setPinValue+0x2a>
+ 158:	81 30       	cpi	r24, 0x01	; 1
+ 15a:	28 f0       	brcs	.+10     	; 0x166 <mdio_setPinValue+0x12>
+ 15c:	82 30       	cpi	r24, 0x02	; 2
+ 15e:	d9 f0       	breq	.+54     	; 0x196 <mdio_setPinValue+0x42>
+ 160:	83 30       	cpi	r24, 0x03	; 3
+ 162:	89 f5       	brne	.+98     	; 0x1c6 <mdio_setPinValue+0x72>
+ 164:	24 c0       	rjmp	.+72     	; 0x1ae <mdio_setPinValue+0x5a>
+	{
+		/*In case of choosing PORTA*/
+		case PORTA:
+
+			/*Switching over port pin value*/
+			switch(au8_value)
+ 166:	44 23       	and	r20, r20
+ 168:	29 f0       	breq	.+10     	; 0x174 <mdio_setPinValue+0x20>
+ 16a:	41 30       	cpi	r20, 0x01	; 1
+ 16c:	61 f5       	brne	.+88     	; 0x1c6 <mdio_setPinValue+0x72>
+			{
+				/*In case of high*/
+				case HIGH:
+
+					/*Set the selected pins to high*/
+					MDIO_PORTA |= au8_pin;
+ 16e:	8b b3       	in	r24, 0x1b	; 27
+ 170:	86 2b       	or	r24, r22
+ 172:	03 c0       	rjmp	.+6      	; 0x17a <mdio_setPinValue+0x26>
+
+				/*In case of low*/
+				case LOW:
+
+					/*Set the selected pins to low*/
+					MDIO_PORTA &= ~au8_pin;
+ 174:	8b b3       	in	r24, 0x1b	; 27
+ 176:	60 95       	com	r22
+ 178:	86 23       	and	r24, r22
+ 17a:	8b bb       	out	0x1b, r24	; 27
+ 17c:	08 95       	ret
+
+		/*In case of choosing PORTB*/
+		case PORTB:
+
+			/*Switching over port pin value*/
+			switch(au8_value)
+ 17e:	44 23       	and	r20, r20
+ 180:	29 f0       	breq	.+10     	; 0x18c <mdio_setPinValue+0x38>
+ 182:	41 30       	cpi	r20, 0x01	; 1
+ 184:	01 f5       	brne	.+64     	; 0x1c6 <mdio_setPinValue+0x72>
+			{
+				/*In case of high*/
+				case HIGH:
+
+					/*Set the selected pins to high*/
+					MDIO_PORTB |= au8_pin;
+ 186:	88 b3       	in	r24, 0x18	; 24
+ 188:	86 2b       	or	r24, r22
+ 18a:	03 c0       	rjmp	.+6      	; 0x192 <mdio_setPinValue+0x3e>
+
+				/*In case of low*/
+				case LOW:
+
+					/*Set the selected pins to low*/
+					MDIO_PORTB &= ~au8_pin;
+ 18c:	88 b3       	in	r24, 0x18	; 24
+ 18e:	60 95       	com	r22
+ 190:	86 23       	and	r24, r22
+ 192:	88 bb       	out	0x18, r24	; 24
+ 194:	08 95       	ret
+
+		/*In case of choosing PORTC*/
+		case PORTC:
+
+			/*Switching over port pin value*/
+			switch(au8_value)
+ 196:	44 23       	and	r20, r20
+ 198:	29 f0       	breq	.+10     	; 0x1a4 <mdio_setPinValue+0x50>
+ 19a:	41 30       	cpi	r20, 0x01	; 1
+ 19c:	a1 f4       	brne	.+40     	; 0x1c6 <mdio_setPinValue+0x72>
+			{
+				/*In case of high*/
+				case HIGH:
+
+					/*Set the selected pins to high*/
+					MDIO_PORTC |= au8_pin;
+ 19e:	85 b3       	in	r24, 0x15	; 21
+ 1a0:	86 2b       	or	r24, r22
+ 1a2:	03 c0       	rjmp	.+6      	; 0x1aa <mdio_setPinValue+0x56>
+
+				/*In case of low*/
+				case LOW:
+
+					/*Set the selected pins to low*/
+					MDIO_PORTC &= ~au8_pin;
+ 1a4:	85 b3       	in	r24, 0x15	; 21
+ 1a6:	60 95       	com	r22
+ 1a8:	86 23       	and	r24, r22
+ 1aa:	85 bb       	out	0x15, r24	; 21
+ 1ac:	08 95       	ret
+
+		/*In case of choosing PORTD*/
+		case PORTD:
+
+			/*Switching over port pin value*/
+			switch(au8_value)
+ 1ae:	44 23       	and	r20, r20
+ 1b0:	31 f0       	breq	.+12     	; 0x1be <mdio_setPinValue+0x6a>
+ 1b2:	41 30       	cpi	r20, 0x01	; 1
+ 1b4:	41 f4       	brne	.+16     	; 0x1c6 <mdio_setPinValue+0x72>
+			{
+				/*In case of high*/
+				case HIGH:
+
+					/*Set the selected pins to high*/
+					MDIO_PORTD |= au8_pin;
+ 1b6:	82 b3       	in	r24, 0x12	; 18
+ 1b8:	86 2b       	or	r24, r22
+ 1ba:	82 bb       	out	0x12, r24	; 18
+ 1bc:	08 95       	ret
+
+				/*In case of low*/
+				case LOW:
+
+					/*Set the selected pins to low*/
+					MDIO_PORTD &= ~au8_pin;
+ 1be:	82 b3       	in	r24, 0x12	; 18
+ 1c0:	60 95       	com	r22
+ 1c2:	86 23       	and	r24, r22
+ 1c4:	82 bb       	out	0x12, r24	; 18
+ 1c6:	08 95       	ret
+
+000001c8 <mdio_togglePinValue>:
+}
+
+void mdio_togglePinValue(u8_t au8_port, u8_t au8_pin)
+{
+	/*Switching over DIO Ports*/
+	switch(au8_port)
+ 1c8:	81 30       	cpi	r24, 0x01	; 1
+ 1ca:	59 f0       	breq	.+22     	; 0x1e2 <mdio_togglePinValue+0x1a>
+ 1cc:	81 30       	cpi	r24, 0x01	; 1
+ 1ce:	28 f0       	brcs	.+10     	; 0x1da <mdio_togglePinValue+0x12>
+ 1d0:	82 30       	cpi	r24, 0x02	; 2
+ 1d2:	59 f0       	breq	.+22     	; 0x1ea <mdio_togglePinValue+0x22>
+ 1d4:	83 30       	cpi	r24, 0x03	; 3
+ 1d6:	81 f4       	brne	.+32     	; 0x1f8 <mdio_togglePinValue+0x30>
+ 1d8:	0c c0       	rjmp	.+24     	; 0x1f2 <mdio_togglePinValue+0x2a>
+	{
+		/*In case of choosing PORTA*/
+		case PORTA:
+
+			/*Toggling the selected pins*/
+			MDIO_PORTA ^= au8_pin;
+ 1da:	8b b3       	in	r24, 0x1b	; 27
+ 1dc:	86 27       	eor	r24, r22
+ 1de:	8b bb       	out	0x1b, r24	; 27
+ 1e0:	08 95       	ret
+
+		/*In case of choosing PORTB*/
+		case PORTB:
+
+			/*Toggling the selected pins*/
+			MDIO_PORTB ^= au8_pin;
+ 1e2:	88 b3       	in	r24, 0x18	; 24
+ 1e4:	86 27       	eor	r24, r22
+ 1e6:	88 bb       	out	0x18, r24	; 24
+ 1e8:	08 95       	ret
+
+		/*In case of choosing PORTC*/
+		case PORTC:
+
+			/*Toggling the selected pins*/
+			MDIO_PORTC ^= au8_pin;
+ 1ea:	85 b3       	in	r24, 0x15	; 21
+ 1ec:	86 27       	eor	r24, r22
+ 1ee:	85 bb       	out	0x15, r24	; 21
+ 1f0:	08 95       	ret
+
+		/*In case of choosing PORTD*/
+		case PORTD:
+
+			/*Toggling the selected pins*/
+			MDIO_PORTD ^= au8_pin;
+ 1f2:	82 b3       	in	r24, 0x12	; 18
+ 1f4:	86 27       	eor	r24, r22
+ 1f6:	82 bb       	out	0x12, r24	; 18
+ 1f8:	08 95       	ret
+
+000001fa <mdio_getPinValue>:
+{
+	/*Local variable used to get the selected pin value*/
+	u8_t au8_pinValue = 0;
+
+	/*Switching over DIO Ports*/
+	switch(au8_port)
+ 1fa:	81 30       	cpi	r24, 0x01	; 1
+ 1fc:	51 f0       	breq	.+20     	; 0x212 <mdio_getPinValue+0x18>
+ 1fe:	81 30       	cpi	r24, 0x01	; 1
+ 200:	30 f0       	brcs	.+12     	; 0x20e <mdio_getPinValue+0x14>
+ 202:	82 30       	cpi	r24, 0x02	; 2
+ 204:	41 f0       	breq	.+16     	; 0x216 <mdio_getPinValue+0x1c>
+ 206:	83 30       	cpi	r24, 0x03	; 3
+ 208:	59 f0       	breq	.+22     	; 0x220 <mdio_getPinValue+0x26>
+ 20a:	80 e0       	ldi	r24, 0x00	; 0
+ 20c:	08 95       	ret
+	{
+		/*In case of choosing PORTA*/
+		case PORTA:
+
+			/*Checking the pin value*/
+			if( MDIO_PINA & au8_pin )
+ 20e:	89 b3       	in	r24, 0x19	; 25
+ 210:	03 c0       	rjmp	.+6      	; 0x218 <mdio_getPinValue+0x1e>
+
+		/*In case of choosing PORTB*/
+		case PORTB:
+
+			/*Checking the pin value*/
+			if( MDIO_PINB & au8_pin )
+ 212:	86 b3       	in	r24, 0x16	; 22
+ 214:	01 c0       	rjmp	.+2      	; 0x218 <mdio_getPinValue+0x1e>
+
+		/*In case of choosing PORTC*/
+		case PORTC:
+
+			/*Checking the pin value*/
+			if( MDIO_PINC & au8_pin )
+ 216:	83 b3       	in	r24, 0x13	; 19
+ 218:	86 23       	and	r24, r22
+ 21a:	31 f0       	breq	.+12     	; 0x228 <mdio_getPinValue+0x2e>
+ 21c:	81 e0       	ldi	r24, 0x01	; 1
+ 21e:	08 95       	ret
+
+		/*In case of choosing PORTD*/
+		case PORTD:
+
+			/*Checking the pin value*/
+			if( MDIO_PIND & au8_pin )
+ 220:	80 b3       	in	r24, 0x10	; 16
+ 222:	86 23       	and	r24, r22
+ 224:	09 f0       	breq	.+2      	; 0x228 <mdio_getPinValue+0x2e>
+ 226:	81 e0       	ldi	r24, 0x01	; 1
+	}
+
+
+	/*Return the selected pin value*/
+	return au8_pinValue;
+}
+ 228:	08 95       	ret
+
+0000022a <mtimer_timerStart>:
+/************************************************************************************************/
+
+static void mtimer_timerStart(u8_t au8_channel)
+{
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 22a:	88 23       	and	r24, r24
+ 22c:	19 f0       	breq	.+6      	; 0x234 <mtimer_timerStart+0xa>
+ 22e:	81 30       	cpi	r24, 0x01	; 1
+ 230:	d9 f4       	brne	.+54     	; 0x268 <mtimer_timerStart+0x3e>
+ 232:	0a c0       	rjmp	.+20     	; 0x248 <mtimer_timerStart+0x1e>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Stopping timer0*/
+			MTIMER_TCCR0 &= TIMER_PRE_STOP;
+ 234:	83 b7       	in	r24, 0x33	; 51
+ 236:	88 7f       	andi	r24, 0xF8	; 248
+ 238:	83 bf       	out	0x33, r24	; 51
+
+			/*Resetting timer/counter register*/
+			MTIMER_TCNT0 = 0;
+ 23a:	12 be       	out	0x32, r1	; 50
+
+			/*Starting timer0*/
+			MTIMER_TCCR0 |= gu8_timer0_prescaler;
+ 23c:	83 b7       	in	r24, 0x33	; 51
+ 23e:	90 91 66 00 	lds	r25, 0x0066
+ 242:	89 2b       	or	r24, r25
+ 244:	83 bf       	out	0x33, r24	; 51
+ 246:	08 95       	ret
+
+		/*In case of timer1 channel*/
+		case TIMER_CHANNEL_1:
+
+			/*Stopping timer1*/
+			MTIMER_TCCR1 &= 0xFFF8;
+ 248:	8e b5       	in	r24, 0x2e	; 46
+ 24a:	9f b5       	in	r25, 0x2f	; 47
+ 24c:	88 7f       	andi	r24, 0xF8	; 248
+ 24e:	9f bd       	out	0x2f, r25	; 47
+ 250:	8e bd       	out	0x2e, r24	; 46
+
+			/*Resetting timer/counter register*/
+			MTIMER_TCNT1 = 0;
+ 252:	1d bc       	out	0x2d, r1	; 45
+ 254:	1c bc       	out	0x2c, r1	; 44
+
+			/*Starting timer1*/
+			MTIMER_TCCR1 |= gu8_timer1_prescaler;
+ 256:	2e b5       	in	r18, 0x2e	; 46
+ 258:	3f b5       	in	r19, 0x2f	; 47
+ 25a:	80 91 67 00 	lds	r24, 0x0067
+ 25e:	90 e0       	ldi	r25, 0x00	; 0
+ 260:	82 2b       	or	r24, r18
+ 262:	93 2b       	or	r25, r19
+ 264:	9f bd       	out	0x2f, r25	; 47
+ 266:	8e bd       	out	0x2e, r24	; 46
+ 268:	08 95       	ret
+
+0000026a <mtimer_timerStop>:
+}
+
+static void mtimer_timerStop(u8_t au8_channel)
+{
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 26a:	88 23       	and	r24, r24
+ 26c:	19 f0       	breq	.+6      	; 0x274 <mtimer_timerStop+0xa>
+ 26e:	81 30       	cpi	r24, 0x01	; 1
+ 270:	51 f4       	brne	.+20     	; 0x286 <mtimer_timerStop+0x1c>
+ 272:	04 c0       	rjmp	.+8      	; 0x27c <mtimer_timerStop+0x12>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Stopping timer0*/
+			MTIMER_TCCR0 &= TIMER_PRE_STOP;
+ 274:	83 b7       	in	r24, 0x33	; 51
+ 276:	88 7f       	andi	r24, 0xF8	; 248
+ 278:	83 bf       	out	0x33, r24	; 51
+ 27a:	08 95       	ret
+
+		/*In case of timer1 channel*/
+		case TIMER_CHANNEL_1:
+
+			/*Stopping timer1*/
+			MTIMER_TCCR1 &= 0xFFF8;
+ 27c:	8e b5       	in	r24, 0x2e	; 46
+ 27e:	9f b5       	in	r25, 0x2f	; 47
+ 280:	88 7f       	andi	r24, 0xF8	; 248
+ 282:	9f bd       	out	0x2f, r25	; 47
+ 284:	8e bd       	out	0x2e, r24	; 46
+ 286:	08 95       	ret
+
+00000288 <mtimer_delayInit>:
+}
+
+void mtimer_delayInit(u8_t au8_channel)
+{
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 288:	81 30       	cpi	r24, 0x01	; 1
+ 28a:	69 f0       	breq	.+26     	; 0x2a6 <mtimer_delayInit+0x1e>
+ 28c:	81 30       	cpi	r24, 0x01	; 1
+ 28e:	18 f0       	brcs	.+6      	; 0x296 <mtimer_delayInit+0xe>
+ 290:	82 30       	cpi	r24, 0x02	; 2
+ 292:	81 f4       	brne	.+32     	; 0x2b4 <mtimer_delayInit+0x2c>
+ 294:	0c c0       	rjmp	.+24     	; 0x2ae <mtimer_delayInit+0x26>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Setting the timer0 pre-scaler to be used in start timer function*/
+			gu8_timer0_prescaler = TIMER_PRESCALER_64;
+ 296:	83 e0       	ldi	r24, 0x03	; 3
+ 298:	80 93 66 00 	sts	0x0066, r24
+
+			/*Activation of CTC mode*/
+			MTIMER_TCCR0 = 0x08;
+ 29c:	88 e0       	ldi	r24, 0x08	; 8
+ 29e:	83 bf       	out	0x33, r24	; 51
+
+			/*Setting OCR value to make a delay by 1ms at 64 pre-scaler and clock frequency 8MHz*/
+			MTIMER_OCR0 = 125;
+ 2a0:	8d e7       	ldi	r24, 0x7D	; 125
+ 2a2:	8c bf       	out	0x3c, r24	; 60
+ 2a4:	08 95       	ret
+
+		/*In case of timer1 channel*/
+		case TIMER_CHANNEL_1:
+
+			/*Setting the timer1 pre-scaler to be used in start timer function*/
+			gu8_timer1_prescaler = TIMER_PRESCALER_64;
+ 2a6:	83 e0       	ldi	r24, 0x03	; 3
+ 2a8:	80 93 67 00 	sts	0x0067, r24
+ 2ac:	08 95       	ret
+
+		/*In case of timer2 channel*/
+		case TIMER_CHANNEL_2:
+
+			/*Setting the timer2 pre-scaler to be used in start timer function*/
+			gu8_timer2_prescaler = TIMER_PRESCALER_64;
+ 2ae:	83 e0       	ldi	r24, 0x03	; 3
+ 2b0:	80 93 68 00 	sts	0x0068, r24
+ 2b4:	08 95       	ret
+
+000002b6 <mtimer_pwmInit>:
+}
+
+void mtimer_pwmInit(u8_t au8_channel, u8_t au8_frequency)
+{
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 2b6:	88 23       	and	r24, r24
+ 2b8:	99 f4       	brne	.+38     	; 0x2e0 <mtimer_pwmInit+0x2a>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Setting the timer0 pre-scaler to be used in start timer function*/
+			gu8_timer0_prescaler = au8_frequency;
+ 2ba:	60 93 66 00 	sts	0x0066, r22
+
+			/*Switching over frequency value*/
+			switch(au8_frequency)
+ 2be:	61 30       	cpi	r22, 0x01	; 1
+ 2c0:	78 f0       	brcs	.+30     	; 0x2e0 <mtimer_pwmInit+0x2a>
+ 2c2:	66 30       	cpi	r22, 0x06	; 6
+ 2c4:	28 f0       	brcs	.+10     	; 0x2d0 <mtimer_pwmInit+0x1a>
+ 2c6:	86 2f       	mov	r24, r22
+ 2c8:	8b 50       	subi	r24, 0x0B	; 11
+ 2ca:	85 30       	cpi	r24, 0x05	; 5
+ 2cc:	48 f4       	brcc	.+18     	; 0x2e0 <mtimer_pwmInit+0x2a>
+ 2ce:	03 c0       	rjmp	.+6      	; 0x2d6 <mtimer_pwmInit+0x20>
+			{
+				/*In case of choosing fast PWM*/
+				case TIMER_FREQ_31_25KHZ ... TIMER_FREQ_30HZ:
+
+					/*Choosing fast PWM mode with non-inversion*/
+					MTIMER_TCCR0 = 0x68;
+ 2d0:	88 e6       	ldi	r24, 0x68	; 104
+ 2d2:	83 bf       	out	0x33, r24	; 51
+ 2d4:	08 95       	ret
+
+				/*In case of choosing phase correct PWM*/
+				case TIMER_FREQ_15_6KHZ ... TIMER_FREQ_15HZ:
+
+					/*Removing the phase correct offset*/
+					gu8_timer0_prescaler -= PHASE_CORRECT_OFFSET;
+ 2d6:	6a 50       	subi	r22, 0x0A	; 10
+ 2d8:	60 93 66 00 	sts	0x0066, r22
+
+					/*Choosing phase correct PWM mode with non-inversion*/
+					MTIMER_TCCR0 = 0x60;
+ 2dc:	80 e6       	ldi	r24, 0x60	; 96
+ 2de:	83 bf       	out	0x33, r24	; 51
+ 2e0:	08 95       	ret
+
+000002e2 <mtimer_customFreqPWMInit>:
+}
+
+void mtimer_customFreqPWMInit(u16_t au16_periodicTime_us)
+{
+	/*Setting non-inversion mode in channel A and B, selecting phase correct PWM with top at ICR1 (mode 10)*/
+	MTIMER_TCCR1 = 0xA210;
+ 2e2:	20 e1       	ldi	r18, 0x10	; 16
+ 2e4:	32 ea       	ldi	r19, 0xA2	; 162
+ 2e6:	3f bd       	out	0x2f, r19	; 47
+ 2e8:	2e bd       	out	0x2e, r18	; 46
+
+	/*Setting the periodic time of the signal*/
+	MTIMER_ICR1 = au16_periodicTime_us / 2;
+ 2ea:	96 95       	lsr	r25
+ 2ec:	87 95       	ror	r24
+ 2ee:	97 bd       	out	0x27, r25	; 39
+ 2f0:	86 bd       	out	0x26, r24	; 38
+
+	/*Setting timer1 prescaler to get 1us tick*/
+	gu8_timer1_prescaler = TIMER_PRESCALER_8;
+ 2f2:	82 e0       	ldi	r24, 0x02	; 2
+ 2f4:	80 93 67 00 	sts	0x0067, r24
+
+	/*Return from this function*/
+	return;
+}
+ 2f8:	08 95       	ret
+
+000002fa <mtimer_pwmCaptureInit>:
+
+void mtimer_pwmCaptureInit(void)
+{
+	/*Enable normal mode and rising edge for ICU*/
+	MTIMER_TCCR1 = 0x0040;
+ 2fa:	80 e4       	ldi	r24, 0x40	; 64
+ 2fc:	90 e0       	ldi	r25, 0x00	; 0
+ 2fe:	9f bd       	out	0x2f, r25	; 47
+ 300:	8e bd       	out	0x2e, r24	; 46
+
+	/*Reset ICR register*/
+	MTIMER_ICR1 = 0;
+ 302:	17 bc       	out	0x27, r1	; 39
+ 304:	16 bc       	out	0x26, r1	; 38
+
+	/*Choosing prescaler 8 to provide 1us tick*/
+	gu8_timer1_prescaler = TIMER_PRESCALER_8;
+ 306:	82 e0       	ldi	r24, 0x02	; 2
+ 308:	80 93 67 00 	sts	0x0067, r24
+
+	/*Return from this function*/
+	return;
+}
+ 30c:	08 95       	ret
+
+0000030e <mtimer_delayMs_sync>:
+
+void mtimer_delayMs_sync(u8_t au8_channel, u32_t au32_delayPeriodMs)
+{
+ 30e:	ef 92       	push	r14
+ 310:	ff 92       	push	r15
+ 312:	0f 93       	push	r16
+ 314:	1f 93       	push	r17
+ 316:	7a 01       	movw	r14, r20
+ 318:	8b 01       	movw	r16, r22
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 31a:	88 23       	and	r24, r24
+ 31c:	b9 f4       	brne	.+46     	; 0x34c <mtimer_delayMs_sync+0x3e>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Starting timer channel 0*/
+			mtimer_timerStart(TIMER_CHANNEL_0);
+ 31e:	80 e0       	ldi	r24, 0x00	; 0
+ 320:	0e 94 15 01 	call	0x22a	; 0x22a <mtimer_timerStart>
+ 324:	0b c0       	rjmp	.+22     	; 0x33c <mtimer_delayMs_sync+0x2e>
+
+			/*Looping over delay period*/
+			while(au32_delayPeriodMs--)
+			{
+				/*Waiting until 1ms of delay passes*/
+				while(!GET_BIT(MTIMER_TIFR, 1));
+ 326:	08 b6       	in	r0, 0x38	; 56
+ 328:	01 fe       	sbrs	r0, 1
+ 32a:	fd cf       	rjmp	.-6      	; 0x326 <mtimer_delayMs_sync+0x18>
+
+				/*CLearing compare match flag bit*/
+				SET_BIT(MTIMER_TIFR, 1);
+ 32c:	88 b7       	in	r24, 0x38	; 56
+ 32e:	82 60       	ori	r24, 0x02	; 2
+ 330:	88 bf       	out	0x38, r24	; 56
+ 332:	08 94       	sec
+ 334:	e1 08       	sbc	r14, r1
+ 336:	f1 08       	sbc	r15, r1
+ 338:	01 09       	sbc	r16, r1
+ 33a:	11 09       	sbc	r17, r1
+
+			/*Starting timer channel 0*/
+			mtimer_timerStart(TIMER_CHANNEL_0);
+
+			/*Looping over delay period*/
+			while(au32_delayPeriodMs--)
+ 33c:	e1 14       	cp	r14, r1
+ 33e:	f1 04       	cpc	r15, r1
+ 340:	01 05       	cpc	r16, r1
+ 342:	11 05       	cpc	r17, r1
+ 344:	81 f7       	brne	.-32     	; 0x326 <mtimer_delayMs_sync+0x18>
+				/*CLearing compare match flag bit*/
+				SET_BIT(MTIMER_TIFR, 1);
+			}
+
+			/*Stopping timer channel 0*/
+			mtimer_timerStop(TIMER_CHANNEL_0);
+ 346:	80 e0       	ldi	r24, 0x00	; 0
+ 348:	0e 94 35 01 	call	0x26a	; 0x26a <mtimer_timerStop>
+	}
+
+
+	/*Return from this function*/
+	return;
+}
+ 34c:	1f 91       	pop	r17
+ 34e:	0f 91       	pop	r16
+ 350:	ff 90       	pop	r15
+ 352:	ef 90       	pop	r14
+ 354:	08 95       	ret
+
+00000356 <mtimer_delayMs_async>:
+
+void mtimer_delayMs_async(u8_t au8_channel, u32_t au32_delayPeriodMs, void(*pfunc)(void))
+{
+ 356:	98 2f       	mov	r25, r24
+	/*Enable global interrupts*/
+	SET_BIT(SREG, 7);
+ 358:	8f b7       	in	r24, 0x3f	; 63
+ 35a:	80 68       	ori	r24, 0x80	; 128
+ 35c:	8f bf       	out	0x3f, r24	; 63
+
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 35e:	91 30       	cpi	r25, 0x01	; 1
+ 360:	c1 f0       	breq	.+48     	; 0x392 <mtimer_delayMs_async+0x3c>
+ 362:	91 30       	cpi	r25, 0x01	; 1
+ 364:	18 f0       	brcs	.+6      	; 0x36c <mtimer_delayMs_async+0x16>
+ 366:	92 30       	cpi	r25, 0x02	; 2
+ 368:	69 f5       	brne	.+90     	; 0x3c4 <mtimer_delayMs_async+0x6e>
+ 36a:	20 c0       	rjmp	.+64     	; 0x3ac <mtimer_delayMs_async+0x56>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Saving the delay period to check over it at the ISR*/
+			gu32_timer0_delayPeriod = au32_delayPeriodMs;
+ 36c:	40 93 69 00 	sts	0x0069, r20
+ 370:	50 93 6a 00 	sts	0x006A, r21
+ 374:	60 93 6b 00 	sts	0x006B, r22
+ 378:	70 93 6c 00 	sts	0x006C, r23
+
+			/*Setting the call back function address*/
+			gpfunc_timer0_isr = pfunc;
+ 37c:	30 93 61 00 	sts	0x0061, r19
+ 380:	20 93 60 00 	sts	0x0060, r18
+
+			/*Enable compare match interrupt*/
+			SET_BIT(MTIMER_TIMSK, 1);
+ 384:	89 b7       	in	r24, 0x39	; 57
+ 386:	82 60       	ori	r24, 0x02	; 2
+ 388:	89 bf       	out	0x39, r24	; 57
+
+			/*Starting timer channel 0*/
+			mtimer_timerStart(TIMER_CHANNEL_0);
+ 38a:	80 e0       	ldi	r24, 0x00	; 0
+ 38c:	0e 94 15 01 	call	0x22a	; 0x22a <mtimer_timerStart>
+ 390:	08 95       	ret
+
+		/*In case of timer1 channel*/
+		case TIMER_CHANNEL_1:
+
+			/*Saving the delay period to check over it at the ISR*/
+			gu32_timer1_delayPeriod = au32_delayPeriodMs;
+ 392:	40 93 6d 00 	sts	0x006D, r20
+ 396:	50 93 6e 00 	sts	0x006E, r21
+ 39a:	60 93 6f 00 	sts	0x006F, r22
+ 39e:	70 93 70 00 	sts	0x0070, r23
+
+			/*Setting the call back function address*/
+			gpfunc_timer1_isr = pfunc;
+ 3a2:	30 93 63 00 	sts	0x0063, r19
+ 3a6:	20 93 62 00 	sts	0x0062, r18
+ 3aa:	08 95       	ret
+
+		/*In case of timer2 channel*/
+		case TIMER_CHANNEL_2:
+
+			/*Saving the delay period to check over it at the ISR*/
+			gu32_timer2_delayPeriod = au32_delayPeriodMs;
+ 3ac:	40 93 71 00 	sts	0x0071, r20
+ 3b0:	50 93 72 00 	sts	0x0072, r21
+ 3b4:	60 93 73 00 	sts	0x0073, r22
+ 3b8:	70 93 74 00 	sts	0x0074, r23
+
+			/*Setting the call back function address*/
+			gpfunc_timer2_isr = pfunc;
+ 3bc:	30 93 65 00 	sts	0x0065, r19
+ 3c0:	20 93 64 00 	sts	0x0064, r18
+ 3c4:	08 95       	ret
+
+000003c6 <mtimer_pwmRun>:
+}
+
+void mtimer_pwmRun(u8_t au8_channel, u8_t au8_dutyCycle)
+{
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 3c6:	88 23       	and	r24, r24
+ 3c8:	21 f4       	brne	.+8      	; 0x3d2 <mtimer_pwmRun+0xc>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Setting the duty cycle*/
+			MTIMER_OCR0 = au8_dutyCycle;
+ 3ca:	6c bf       	out	0x3c, r22	; 60
+
+			/*Starting timer channel 0*/
+			mtimer_timerStart(TIMER_CHANNEL_0);
+ 3cc:	80 e0       	ldi	r24, 0x00	; 0
+ 3ce:	0e 94 15 01 	call	0x22a	; 0x22a <mtimer_timerStart>
+ 3d2:	08 95       	ret
+
+000003d4 <mtimer_pwmStop>:
+
+
+void mtimer_pwmStop(u8_t au8_channel)
+{
+	/*Switching over timer channels*/
+	switch(au8_channel)
+ 3d4:	88 23       	and	r24, r24
+ 3d6:	19 f4       	brne	.+6      	; 0x3de <mtimer_pwmStop+0xa>
+	{
+		/*In case of timer0 channel*/
+		case TIMER_CHANNEL_0:
+
+			/*Starting timer channel 0*/
+			mtimer_timerStop(TIMER_CHANNEL_0);
+ 3d8:	80 e0       	ldi	r24, 0x00	; 0
+ 3da:	0e 94 35 01 	call	0x26a	; 0x26a <mtimer_timerStop>
+ 3de:	08 95       	ret
+
+000003e0 <mtimer_customFreqPWMRun>:
+}
+
+void mtimer_customFreqPWMRun(u8_t au8_customPWMChannel, u16_t au16_dutyCycle)
+{
+	/*Switching over custom PWM channels*/
+	switch(au8_customPWMChannel)
+ 3e0:	88 23       	and	r24, r24
+ 3e2:	19 f0       	breq	.+6      	; 0x3ea <mtimer_customFreqPWMRun+0xa>
+ 3e4:	81 30       	cpi	r24, 0x01	; 1
+ 3e6:	31 f4       	brne	.+12     	; 0x3f4 <mtimer_customFreqPWMRun+0x14>
+ 3e8:	03 c0       	rjmp	.+6      	; 0x3f0 <mtimer_customFreqPWMRun+0x10>
+	{
+		/*In case of choosing channel A*/
+		case TIMER_PWM_CHANNEL_A:
+
+			/*Setting the duty cycle*/
+			MTIMER_OCR1A = au16_dutyCycle;
+ 3ea:	7b bd       	out	0x2b, r23	; 43
+ 3ec:	6a bd       	out	0x2a, r22	; 42
+ 3ee:	02 c0       	rjmp	.+4      	; 0x3f4 <mtimer_customFreqPWMRun+0x14>
+
+		/*In case of choosing channel B*/
+		case TIMER_PWM_CHANNEL_B:
+
+			/*Setting the duty cycle*/
+			MTIMER_OCR1B = au16_dutyCycle;
+ 3f0:	79 bd       	out	0x29, r23	; 41
+ 3f2:	68 bd       	out	0x28, r22	; 40
+			/*Breaking from default case*/
+			break;
+	}
+
+	/*Starting timer1*/
+	mtimer_timerStart(TIMER_CHANNEL_1);
+ 3f4:	81 e0       	ldi	r24, 0x01	; 1
+ 3f6:	0e 94 15 01 	call	0x22a	; 0x22a <mtimer_timerStart>
+
+	/*Return from this function*/
+	return;
+}
+ 3fa:	08 95       	ret
+
+000003fc <mtimer_pwmCatch>:
+
+void mtimer_pwmCatch(u32_t* pu32_dutyCycle, u32_t* pu32_frequency)
+{
+ 3fc:	af 92       	push	r10
+ 3fe:	bf 92       	push	r11
+ 400:	cf 92       	push	r12
+ 402:	df 92       	push	r13
+ 404:	ef 92       	push	r14
+ 406:	ff 92       	push	r15
+ 408:	0f 93       	push	r16
+ 40a:	1f 93       	push	r17
+ 40c:	cf 93       	push	r28
+ 40e:	df 93       	push	r29
+ 410:	6c 01       	movw	r12, r24
+ 412:	5b 01       	movw	r10, r22
+	u16_t au16_timeLap1 = 0;
+	u16_t au16_timeLap2 = 0;
+	u16_t au16_timeLap3 = 0;
+
+	/*Starting timer channel 1*/
+	mtimer_timerStart(TIMER_CHANNEL_1);
+ 414:	81 e0       	ldi	r24, 0x01	; 1
+ 416:	0e 94 15 01 	call	0x22a	; 0x22a <mtimer_timerStart>
+
+	/*Polling over ICU flag*/
+	while(!GET_BIT(MTIMER_TIFR, 5));
+ 41a:	08 b6       	in	r0, 0x38	; 56
+ 41c:	05 fe       	sbrs	r0, 5
+ 41e:	fd cf       	rjmp	.-6      	; 0x41a <mtimer_pwmCatch+0x1e>
+
+	/*Clearing ICU flag*/
+	SET_BIT(MTIMER_TIFR, 5);
+ 420:	88 b7       	in	r24, 0x38	; 56
+ 422:	80 62       	ori	r24, 0x20	; 32
+ 424:	88 bf       	out	0x38, r24	; 56
+
+	/*Get the first time lap value*/
+	au16_timeLap1 = MTIMER_ICR1;
+ 426:	06 b5       	in	r16, 0x26	; 38
+ 428:	17 b5       	in	r17, 0x27	; 39
+
+	/*Enable falling edge ICU detection*/
+	CLEAR_BIT(MTIMER_TCCR1, 6);
+ 42a:	8e b5       	in	r24, 0x2e	; 46
+ 42c:	9f b5       	in	r25, 0x2f	; 47
+ 42e:	8f 7b       	andi	r24, 0xBF	; 191
+ 430:	9f bd       	out	0x2f, r25	; 47
+ 432:	8e bd       	out	0x2e, r24	; 46
+
+	/*Polling over ICU flag*/
+	while(!GET_BIT(MTIMER_TIFR, 5));
+ 434:	08 b6       	in	r0, 0x38	; 56
+ 436:	05 fe       	sbrs	r0, 5
+ 438:	fd cf       	rjmp	.-6      	; 0x434 <mtimer_pwmCatch+0x38>
+
+	/*Clearing ICU flag*/
+	SET_BIT(MTIMER_TIFR, 5);
+ 43a:	88 b7       	in	r24, 0x38	; 56
+ 43c:	80 62       	ori	r24, 0x20	; 32
+ 43e:	88 bf       	out	0x38, r24	; 56
+
+	/*Get the second time lap value*/
+	au16_timeLap2 = MTIMER_ICR1;
+ 440:	c6 b5       	in	r28, 0x26	; 38
+ 442:	d7 b5       	in	r29, 0x27	; 39
+
+	/*Enable rising edge ICU detection*/
+	SET_BIT(MTIMER_TCCR1, 6);
+ 444:	8e b5       	in	r24, 0x2e	; 46
+ 446:	9f b5       	in	r25, 0x2f	; 47
+ 448:	80 64       	ori	r24, 0x40	; 64
+ 44a:	9f bd       	out	0x2f, r25	; 47
+ 44c:	8e bd       	out	0x2e, r24	; 46
+
+	/*Polling over ICU flag*/
+	while(!GET_BIT(MTIMER_TIFR, 5));
+ 44e:	08 b6       	in	r0, 0x38	; 56
+ 450:	05 fe       	sbrs	r0, 5
+ 452:	fd cf       	rjmp	.-6      	; 0x44e <mtimer_pwmCatch+0x52>
+
+	/*Clearing ICU flag*/
+	SET_BIT(MTIMER_TIFR, 5);
+ 454:	88 b7       	in	r24, 0x38	; 56
+ 456:	80 62       	ori	r24, 0x20	; 32
+ 458:	88 bf       	out	0x38, r24	; 56
+
+	/*Get the third time lap value*/
+	au16_timeLap3 = MTIMER_ICR1;
+ 45a:	e6 b4       	in	r14, 0x26	; 38
+ 45c:	f7 b4       	in	r15, 0x27	; 39
+
+	/*Stop timer1*/
+	mtimer_timerStop(TIMER_CHANNEL_1);
+ 45e:	81 e0       	ldi	r24, 0x01	; 1
+ 460:	0e 94 35 01 	call	0x26a	; 0x26a <mtimer_timerStop>
+
+	/*Get the duty cycle in (%)*/
+	*pu32_dutyCycle = ((au16_timeLap2 - au16_timeLap1) * 100) / (au16_timeLap3 - au16_timeLap1);
+ 464:	e0 1a       	sub	r14, r16
+ 466:	f1 0a       	sbc	r15, r17
+ 468:	c0 1b       	sub	r28, r16
+ 46a:	d1 0b       	sbc	r29, r17
+ 46c:	84 e6       	ldi	r24, 0x64	; 100
+ 46e:	90 e0       	ldi	r25, 0x00	; 0
+ 470:	9c 01       	movw	r18, r24
+ 472:	c2 9f       	mul	r28, r18
+ 474:	c0 01       	movw	r24, r0
+ 476:	c3 9f       	mul	r28, r19
+ 478:	90 0d       	add	r25, r0
+ 47a:	d2 9f       	mul	r29, r18
+ 47c:	90 0d       	add	r25, r0
+ 47e:	11 24       	eor	r1, r1
+ 480:	b7 01       	movw	r22, r14
+ 482:	0e 94 dd 02 	call	0x5ba	; 0x5ba <__udivmodhi4>
+ 486:	80 e0       	ldi	r24, 0x00	; 0
+ 488:	90 e0       	ldi	r25, 0x00	; 0
+ 48a:	f6 01       	movw	r30, r12
+ 48c:	60 83       	st	Z, r22
+ 48e:	71 83       	std	Z+1, r23	; 0x01
+ 490:	82 83       	std	Z+2, r24	; 0x02
+ 492:	93 83       	std	Z+3, r25	; 0x03
+
+	/*Get the frequency in (Hz)*/
+	*pu32_frequency = 1000000 / (au16_timeLap3 - au16_timeLap1);
+ 494:	00 e0       	ldi	r16, 0x00	; 0
+ 496:	10 e0       	ldi	r17, 0x00	; 0
+ 498:	60 e4       	ldi	r22, 0x40	; 64
+ 49a:	72 e4       	ldi	r23, 0x42	; 66
+ 49c:	8f e0       	ldi	r24, 0x0F	; 15
+ 49e:	90 e0       	ldi	r25, 0x00	; 0
+ 4a0:	a8 01       	movw	r20, r16
+ 4a2:	97 01       	movw	r18, r14
+ 4a4:	0e 94 f1 02 	call	0x5e2	; 0x5e2 <__divmodsi4>
+ 4a8:	f5 01       	movw	r30, r10
+ 4aa:	20 83       	st	Z, r18
+ 4ac:	31 83       	std	Z+1, r19	; 0x01
+ 4ae:	42 83       	std	Z+2, r20	; 0x02
+ 4b0:	53 83       	std	Z+3, r21	; 0x03
+
+	/*Return from this function*/
+	return;
+}
+ 4b2:	df 91       	pop	r29
+ 4b4:	cf 91       	pop	r28
+ 4b6:	1f 91       	pop	r17
+ 4b8:	0f 91       	pop	r16
+ 4ba:	ff 90       	pop	r15
+ 4bc:	ef 90       	pop	r14
+ 4be:	df 90       	pop	r13
+ 4c0:	cf 90       	pop	r12
+ 4c2:	bf 90       	pop	r11
+ 4c4:	af 90       	pop	r10
+ 4c6:	08 95       	ret
+
+000004c8 <__vector_10>:
+/************************************************************************************************/
+
+/*Timer0 compare match interrupt service routine (ISR)*/
+void __vector_10(void) __attribute__((signal));
+void __vector_10(void)
+{
+ 4c8:	1f 92       	push	r1
+ 4ca:	0f 92       	push	r0
+ 4cc:	0f b6       	in	r0, 0x3f	; 63
+ 4ce:	0f 92       	push	r0
+ 4d0:	11 24       	eor	r1, r1
+ 4d2:	2f 93       	push	r18
+ 4d4:	3f 93       	push	r19
+ 4d6:	4f 93       	push	r20
+ 4d8:	5f 93       	push	r21
+ 4da:	6f 93       	push	r22
+ 4dc:	7f 93       	push	r23
+ 4de:	8f 93       	push	r24
+ 4e0:	9f 93       	push	r25
+ 4e2:	af 93       	push	r26
+ 4e4:	bf 93       	push	r27
+ 4e6:	ef 93       	push	r30
+ 4e8:	ff 93       	push	r31
+	/*Checking if the call back pointer has an address of function or not*/
+	if(gpfunc_timer0_isr != NULL)
+ 4ea:	e0 91 60 00 	lds	r30, 0x0060
+ 4ee:	f0 91 61 00 	lds	r31, 0x0061
+ 4f2:	30 97       	sbiw	r30, 0x00	; 0
+ 4f4:	f9 f0       	breq	.+62     	; 0x534 <__vector_10+0x6c>
+	{
+		/*Checking if the delay period has passed or not*/
+		if(gu32_timer0_delayPeriod)
+ 4f6:	80 91 69 00 	lds	r24, 0x0069
+ 4fa:	90 91 6a 00 	lds	r25, 0x006A
+ 4fe:	a0 91 6b 00 	lds	r26, 0x006B
+ 502:	b0 91 6c 00 	lds	r27, 0x006C
+ 506:	00 97       	sbiw	r24, 0x00	; 0
+ 508:	a1 05       	cpc	r26, r1
+ 50a:	b1 05       	cpc	r27, r1
+ 50c:	61 f0       	breq	.+24     	; 0x526 <__vector_10+0x5e>
+		{
+			/*Decrementing delay period*/
+			gu32_timer0_delayPeriod--;
+ 50e:	01 97       	sbiw	r24, 0x01	; 1
+ 510:	a1 09       	sbc	r26, r1
+ 512:	b1 09       	sbc	r27, r1
+ 514:	80 93 69 00 	sts	0x0069, r24
+ 518:	90 93 6a 00 	sts	0x006A, r25
+ 51c:	a0 93 6b 00 	sts	0x006B, r26
+ 520:	b0 93 6c 00 	sts	0x006C, r27
+ 524:	07 c0       	rjmp	.+14     	; 0x534 <__vector_10+0x6c>
+		}
+		else
+		{
+			/*Executing the call back function*/
+			gpfunc_timer0_isr();
+ 526:	09 95       	icall
+
+			/*Disable the compare match interrupt*/
+			CLEAR_BIT(MTIMER_TIMSK, 1);
+ 528:	89 b7       	in	r24, 0x39	; 57
+ 52a:	8d 7f       	andi	r24, 0xFD	; 253
+ 52c:	89 bf       	out	0x39, r24	; 57
+
+			/*Stopping the timer*/
+			mtimer_timerStop(TIMER_CHANNEL_0);
+ 52e:	80 e0       	ldi	r24, 0x00	; 0
+ 530:	0e 94 35 01 	call	0x26a	; 0x26a <mtimer_timerStop>
+	}
+	else
+	{
+		/*Do nothing*/
+	}
+}
+ 534:	ff 91       	pop	r31
+ 536:	ef 91       	pop	r30
+ 538:	bf 91       	pop	r27
+ 53a:	af 91       	pop	r26
+ 53c:	9f 91       	pop	r25
+ 53e:	8f 91       	pop	r24
+ 540:	7f 91       	pop	r23
+ 542:	6f 91       	pop	r22
+ 544:	5f 91       	pop	r21
+ 546:	4f 91       	pop	r20
+ 548:	3f 91       	pop	r19
+ 54a:	2f 91       	pop	r18
+ 54c:	0f 90       	pop	r0
+ 54e:	0f be       	out	0x3f, r0	; 63
+ 550:	0f 90       	pop	r0
+ 552:	1f 90       	pop	r1
+ 554:	18 95       	reti
+
+00000556 <main>:
+#define F_CPU 8000000UL
+#include "util/delay.h"
+
+
+int main(void)
+{
+ 556:	cf 93       	push	r28
+ 558:	df 93       	push	r29
+	mdio_setPinStatus(PORTD, PIN5, OUTPUT);
+ 55a:	83 e0       	ldi	r24, 0x03	; 3
+ 55c:	60 e2       	ldi	r22, 0x20	; 32
+ 55e:	40 e0       	ldi	r20, 0x00	; 0
+ 560:	0e 94 3e 00 	call	0x7c	; 0x7c <mdio_setPinStatus>
+
+	mtimer_customFreqPWMInit(20000);
+ 564:	80 e2       	ldi	r24, 0x20	; 32
+ 566:	9e e4       	ldi	r25, 0x4E	; 78
+ 568:	0e 94 71 01 	call	0x2e2	; 0x2e2 <mtimer_customFreqPWMInit>
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 56c:	c8 ec       	ldi	r28, 0xC8	; 200
+ 56e:	d0 e0       	ldi	r29, 0x00	; 0
+
+    while(1)
+    {
+    	mtimer_customFreqPWMRun(TIMER_PWM_CHANNEL_A, 500);
+ 570:	80 e0       	ldi	r24, 0x00	; 0
+ 572:	64 ef       	ldi	r22, 0xF4	; 244
+ 574:	71 e0       	ldi	r23, 0x01	; 1
+ 576:	0e 94 f0 01 	call	0x3e0	; 0x3e0 <mtimer_customFreqPWMRun>
+ 57a:	80 e1       	ldi	r24, 0x10	; 16
+ 57c:	97 e2       	ldi	r25, 0x27	; 39
+ 57e:	fe 01       	movw	r30, r28
+ 580:	31 97       	sbiw	r30, 0x01	; 1
+ 582:	f1 f7       	brne	.-4      	; 0x580 <main+0x2a>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 584:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 586:	d9 f7       	brne	.-10     	; 0x57e <main+0x28>
+    	_delay_ms(1000);
+    	mtimer_customFreqPWMRun(TIMER_PWM_CHANNEL_A, 750);
+ 588:	80 e0       	ldi	r24, 0x00	; 0
+ 58a:	6e ee       	ldi	r22, 0xEE	; 238
+ 58c:	72 e0       	ldi	r23, 0x02	; 2
+ 58e:	0e 94 f0 01 	call	0x3e0	; 0x3e0 <mtimer_customFreqPWMRun>
+ 592:	80 e1       	ldi	r24, 0x10	; 16
+ 594:	97 e2       	ldi	r25, 0x27	; 39
+ 596:	fe 01       	movw	r30, r28
+ 598:	31 97       	sbiw	r30, 0x01	; 1
+ 59a:	f1 f7       	brne	.-4      	; 0x598 <main+0x42>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 59c:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 59e:	d9 f7       	brne	.-10     	; 0x596 <main+0x40>
+		_delay_ms(1000);
+		mtimer_customFreqPWMRun(TIMER_PWM_CHANNEL_A, 1000);
+ 5a0:	80 e0       	ldi	r24, 0x00	; 0
+ 5a2:	68 ee       	ldi	r22, 0xE8	; 232
+ 5a4:	73 e0       	ldi	r23, 0x03	; 3
+ 5a6:	0e 94 f0 01 	call	0x3e0	; 0x3e0 <mtimer_customFreqPWMRun>
+ 5aa:	80 e1       	ldi	r24, 0x10	; 16
+ 5ac:	97 e2       	ldi	r25, 0x27	; 39
+ 5ae:	fe 01       	movw	r30, r28
+ 5b0:	31 97       	sbiw	r30, 0x01	; 1
+ 5b2:	f1 f7       	brne	.-4      	; 0x5b0 <main+0x5a>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 5b4:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 5b6:	d9 f7       	brne	.-10     	; 0x5ae <main+0x58>
+ 5b8:	db cf       	rjmp	.-74     	; 0x570 <main+0x1a>
+
+000005ba <__udivmodhi4>:
+ 5ba:	aa 1b       	sub	r26, r26
+ 5bc:	bb 1b       	sub	r27, r27
+ 5be:	51 e1       	ldi	r21, 0x11	; 17
+ 5c0:	07 c0       	rjmp	.+14     	; 0x5d0 <__udivmodhi4_ep>
+
+000005c2 <__udivmodhi4_loop>:
+ 5c2:	aa 1f       	adc	r26, r26
+ 5c4:	bb 1f       	adc	r27, r27
+ 5c6:	a6 17       	cp	r26, r22
+ 5c8:	b7 07       	cpc	r27, r23
+ 5ca:	10 f0       	brcs	.+4      	; 0x5d0 <__udivmodhi4_ep>
+ 5cc:	a6 1b       	sub	r26, r22
+ 5ce:	b7 0b       	sbc	r27, r23
+
+000005d0 <__udivmodhi4_ep>:
+ 5d0:	88 1f       	adc	r24, r24
+ 5d2:	99 1f       	adc	r25, r25
+ 5d4:	5a 95       	dec	r21
+ 5d6:	a9 f7       	brne	.-22     	; 0x5c2 <__udivmodhi4_loop>
+ 5d8:	80 95       	com	r24
+ 5da:	90 95       	com	r25
+ 5dc:	bc 01       	movw	r22, r24
+ 5de:	cd 01       	movw	r24, r26
+ 5e0:	08 95       	ret
+
+000005e2 <__divmodsi4>:
+ 5e2:	97 fb       	bst	r25, 7
+ 5e4:	09 2e       	mov	r0, r25
+ 5e6:	05 26       	eor	r0, r21
+ 5e8:	0e d0       	rcall	.+28     	; 0x606 <__divmodsi4_neg1>
+ 5ea:	57 fd       	sbrc	r21, 7
+ 5ec:	04 d0       	rcall	.+8      	; 0x5f6 <__divmodsi4_neg2>
+ 5ee:	14 d0       	rcall	.+40     	; 0x618 <__udivmodsi4>
+ 5f0:	0a d0       	rcall	.+20     	; 0x606 <__divmodsi4_neg1>
+ 5f2:	00 1c       	adc	r0, r0
+ 5f4:	38 f4       	brcc	.+14     	; 0x604 <__divmodsi4_exit>
+
+000005f6 <__divmodsi4_neg2>:
+ 5f6:	50 95       	com	r21
+ 5f8:	40 95       	com	r20
+ 5fa:	30 95       	com	r19
+ 5fc:	21 95       	neg	r18
+ 5fe:	3f 4f       	sbci	r19, 0xFF	; 255
+ 600:	4f 4f       	sbci	r20, 0xFF	; 255
+ 602:	5f 4f       	sbci	r21, 0xFF	; 255
+
+00000604 <__divmodsi4_exit>:
+ 604:	08 95       	ret
+
+00000606 <__divmodsi4_neg1>:
+ 606:	f6 f7       	brtc	.-4      	; 0x604 <__divmodsi4_exit>
+ 608:	90 95       	com	r25
+ 60a:	80 95       	com	r24
+ 60c:	70 95       	com	r23
+ 60e:	61 95       	neg	r22
+ 610:	7f 4f       	sbci	r23, 0xFF	; 255
+ 612:	8f 4f       	sbci	r24, 0xFF	; 255
+ 614:	9f 4f       	sbci	r25, 0xFF	; 255
+ 616:	08 95       	ret
+
+00000618 <__udivmodsi4>:
+ 618:	a1 e2       	ldi	r26, 0x21	; 33
+ 61a:	1a 2e       	mov	r1, r26
+ 61c:	aa 1b       	sub	r26, r26
+ 61e:	bb 1b       	sub	r27, r27
+ 620:	fd 01       	movw	r30, r26
+ 622:	0d c0       	rjmp	.+26     	; 0x63e <__udivmodsi4_ep>
+
+00000624 <__udivmodsi4_loop>:
+ 624:	aa 1f       	adc	r26, r26
+ 626:	bb 1f       	adc	r27, r27
+ 628:	ee 1f       	adc	r30, r30
+ 62a:	ff 1f       	adc	r31, r31
+ 62c:	a2 17       	cp	r26, r18
+ 62e:	b3 07       	cpc	r27, r19
+ 630:	e4 07       	cpc	r30, r20
+ 632:	f5 07       	cpc	r31, r21
+ 634:	20 f0       	brcs	.+8      	; 0x63e <__udivmodsi4_ep>
+ 636:	a2 1b       	sub	r26, r18
+ 638:	b3 0b       	sbc	r27, r19
+ 63a:	e4 0b       	sbc	r30, r20
+ 63c:	f5 0b       	sbc	r31, r21
+
+0000063e <__udivmodsi4_ep>:
+ 63e:	66 1f       	adc	r22, r22
+ 640:	77 1f       	adc	r23, r23
+ 642:	88 1f       	adc	r24, r24
+ 644:	99 1f       	adc	r25, r25
+ 646:	1a 94       	dec	r1
+ 648:	69 f7       	brne	.-38     	; 0x624 <__udivmodsi4_loop>
+ 64a:	60 95       	com	r22
+ 64c:	70 95       	com	r23
+ 64e:	80 95       	com	r24
+ 650:	90 95       	com	r25
+ 652:	9b 01       	movw	r18, r22
+ 654:	ac 01       	movw	r20, r24
+ 656:	bd 01       	movw	r22, r26
+ 658:	cf 01       	movw	r24, r30
+ 65a:	08 95       	ret
+
+0000065c <_exit>:
+ 65c:	f8 94       	cli
+
+0000065e <__stop_program>:
+ 65e:	ff cf       	rjmp	.-2      	; 0x65e <__stop_program>
